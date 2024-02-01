@@ -4,7 +4,9 @@
 
 Затем:
 1. Произвести минимальную настройку (время, локаль, custom motd)
+   
 2. Определить точную версию ядра.
+   
 3. Вывести список модулей ядра и записать в файл
 
 ```
@@ -70,9 +72,76 @@ ahci                   49152  1
 libahci                57344  1 ahci
 wmi                    40960  1 video
 ```     
-5. Просмотреть информацию о процессоре и модулях оперативной памяти
-6. Получить информацию о жестком диске
-7. Добавить в виртуальную машину второй сетевой интерфейс (вывести информацию о нем в виртуалках)
+4. Просмотреть информацию о процессоре и модулях оперативной памяти
+   
+5. Получить информацию о жестком диске
+   
+6. Добавить в виртуальную машину второй сетевой интерфейс (вывести информацию о нем в виртуалках)
+
+   ```
+   ales@ales-1-2:~$ ifconfig
+enp0s3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 10.0.2.15  netmask 255.255.255.0  broadcast 10.0.2.255
+        inet6 fe80::a00:27ff:fe2e:5f3b  prefixlen 64  scopeid 0x20<link>
+        ether 08:00:27:2e:5f:3b  txqueuelen 1000  (Ethernet)
+        RX packets 266  bytes 270400 (270.4 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 258  bytes 31905 (31.9 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+enp0s8: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 10.0.3.15  netmask 255.255.255.0  broadcast 10.0.3.255
+        inet6 fe80::78ad:5b51:9cc2:f98a  prefixlen 64  scopeid 0x20<link>
+        ether 08:00:27:2e:20:84  txqueuelen 1000  (Ethernet)
+        RX packets 100  bytes 15756 (15.7 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 167  bytes 16577 (16.5 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+   ```
 8. (**) Узнать полную информацию об использованной и неиспользованной оперативной памяти
-9. (**) Создать пользователя new_admin_user, Настроить ssh доступ пользователю по ключу на VM, запретить ему авторизацию по паролю
-10. (**) Вывести список файловых систем, которые поддерживаются ядром
+
+   ```
+   ales@ales-1-2:~$ free -h
+               total        used        free      shared  buff/cache   available
+Память:        3,8Gi       1,1Gi       2,2Gi        40Mi       850Mi       2,7Gi
+Подкачка:      3,8Gi          0B       3,8Gi
+   ```
+8. (**) Создать пользователя new_admin_user, Настроить ssh доступ пользователю по ключу на VM, запретить ему авторизацию по паролю
+    
+9. (**) Вывести список файловых систем, которые поддерживаются ядром
+
+```
+ales@ales-1-2:~$ cat /proc/filesystems
+nodev	sysfs
+nodev	tmpfs
+nodev	bdev
+nodev	proc
+nodev	cgroup
+nodev	cgroup2
+nodev	cpuset
+nodev	devtmpfs
+nodev	configfs
+nodev	debugfs
+nodev	tracefs
+nodev	securityfs
+nodev	sockfs
+nodev	bpf
+nodev	pipefs
+nodev	ramfs
+nodev	hugetlbfs
+nodev	devpts
+	ext3
+	ext2
+	ext4
+	squashfs
+	vfat
+nodev	ecryptfs
+	fuseblk
+nodev	fuse
+nodev	fusectl
+nodev	efivarfs
+nodev	mqueue
+nodev	pstore
+nodev	autofs
+nodev	binfmt_misc
+```
