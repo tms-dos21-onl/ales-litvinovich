@@ -78,7 +78,7 @@ wmi                    40960  1 video
    
 6. Добавить в виртуальную машину второй сетевой интерфейс (вывести информацию о нем в виртуалках)
 
-   ```
+```
    ales@ales-1-2:~$ ifconfig
 enp0s3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
         inet 10.0.2.15  netmask 255.255.255.0  broadcast 10.0.2.255
@@ -97,15 +97,15 @@ enp0s8: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
         RX errors 0  dropped 0  overruns 0  frame 0
         TX packets 167  bytes 16577 (16.5 KB)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-   ```
+```
 8. (**) Узнать полную информацию об использованной и неиспользованной оперативной памяти
 
-   ```
+```
    ales@ales-1-2:~$ free -h
                total        used        free      shared  buff/cache   available
 Память:        3,8Gi       1,1Gi       2,2Gi        40Mi       850Mi       2,7Gi
 Подкачка:      3,8Gi          0B       3,8Gi
-   ```
+```
 8. (**) Создать пользователя new_admin_user, Настроить ssh доступ пользователю по ключу на VM, запретить ему авторизацию по паролю
     
 9. (**) Вывести список файловых систем, которые поддерживаются ядром
