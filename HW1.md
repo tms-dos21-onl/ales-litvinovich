@@ -7,6 +7,22 @@
    
 2. Определить точную версию ядра.
    
+```
+ales@ales-1-2:~$ cat /etc/os-release
+PRETTY_NAME="Ubuntu 23.10"
+NAME="Ubuntu"
+VERSION_ID="23.10"
+VERSION="23.10 (Mantic Minotaur)"
+VERSION_CODENAME=mantic
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=mantic
+LOGO=ubuntu-logo
+```   
 3. Вывести список модулей ядра и записать в файл
 
 ```
