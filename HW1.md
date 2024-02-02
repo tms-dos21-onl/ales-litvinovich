@@ -4,7 +4,33 @@
 
 Затем:
 1. Произвести минимальную настройку (время, локаль, custom motd)
-   
+Проверяем системное время и активирован ли NTP демон
+```
+ales@ales-None:~$ timedatectl
+               Local time: Fri 2024-02-02 09:59:15 +03
+           Universal time: Fri 2024-02-02 06:59:15 UTC
+                 RTC time: Fri 2024-02-02 06:59:15
+                Time zone: Europe/Minsk (+03, +0300)
+System clock synchronized: yes
+              NTP service: active
+          RTC in local TZ: no
+
+```
+В случае необходимости меняем в ручную
+
+```
+ales@ales-None:~$ sudo timedatectl set-time "2025-01-01 00:00:00"
+```
+И часовой пояс
+```
+sudo timedatectl set-timezone Europe/Moscow
+```
+Настраиваем приветствие при входе
+```
+ales@ales-None:~$ sudo nano /etc/motd
+![image](https://github.com/tms-dos21-onl/ales-litvinovich/assets/87812043/8baf6b19-1c49-42ac-8ef0-86451f66374e)
+```
+
 2. Определить точную версию ядра.
    
 ```
@@ -24,7 +50,7 @@ UBUNTU_CODENAME=mantic
 LOGO=ubuntu-logo
 ```   
 3. Вывести список модулей ядра и записать в файл
-
+Создаем файл в который сразу же записывается результат команды
 ```
 ales@ales-1-2:~$ lsmod > moduls.txt
 ales@ales-1-2:~$ cat moduls.txt
@@ -91,8 +117,95 @@ wmi                    40960  1 video
 4. Просмотреть информацию о процессоре и модулях оперативной памяти
    
 5. Получить информацию о жестком диске
-   
-6. Добавить в виртуальную машину второй сетевой интерфейс (вывести информацию о нем в виртуалках)
+
+```
+ales@ales-None:~$ sudo fdisk -l
+Disk /dev/loop0: 74.11 MiB, 77713408 bytes, 151784 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop1: 73.9 MiB, 77492224 bytes, 151352 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop2: 4 KiB, 4096 bytes, 8 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop3: 240.51 MiB, 252190720 bytes, 492560 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop4: 262.09 MiB, 274821120 bytes, 536760 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop5: 11.2 MiB, 11747328 bytes, 22944 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop6: 496.98 MiB, 521121792 bytes, 1017816 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop7: 91.69 MiB, 96141312 bytes, 187776 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/sda: 20 GiB, 21474836480 bytes, 41943040 sectors
+Disk model: VMware Virtual S
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: 72C34CC1-4204-4254-BA22-0BF8F5A3860A
+
+Device     Start      End  Sectors Size Type
+/dev/sda1   2048     4095     2048   1M BIOS boot
+/dev/sda2   4096 41940991 41936896  20G Linux filesystem
+
+
+Disk /dev/loop9: 10.52 MiB, 11026432 bytes, 21536 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop8: 9.72 MiB, 10194944 bytes, 19912 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop10: 40.86 MiB, 42840064 bytes, 83672 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/loop11: 452 KiB, 462848 bytes, 904 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+```
+7. Добавить в виртуальную машину второй сетевой интерфейс (вывести информацию о нем в виртуалках)
 
 ```
    ales@ales-1-2:~$ ifconfig
