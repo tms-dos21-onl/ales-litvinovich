@@ -295,10 +295,6 @@ info: Copying files from `/etc/skel' ...
 New password: 
 BAD PASSWORD: The password is shorter than 8 characters
 Retype new password: 
-Sorry, passwords do not match.
-New password: 
-BAD PASSWORD: The password is shorter than 8 characters
-Retype new password: 
 passwd: password updated successfully
 Changing the user information for new_admin_user
 Enter the new value, or press ENTER for the default
@@ -350,7 +346,7 @@ The key's randomart image is:
 ```
 new_admin_user@ales-None:~$ cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 ```
-   Через nano редактируем конфигурацию SSH запретив взод по паролю и разрешив по ключу
+   Через nano редактируем конфигурацию SSH запретив вход по паролю и разрешив по ключу
    PasswordAuthentication no
    PubkeyAuthentication yes
 ```
@@ -359,6 +355,36 @@ new_admin_user@ales-None:~$ sudo nano /etc/ssh/sshd_config
    Перезапускаем демона SSH для применения новой конфигурации
 ```
 new_admin_user@ales-None:~$ sudo systemctl restart ssh
+```
+   Проверяем работоспособность
+```
+new_admin_user@ales-None:~$ ssh new_admin_user@192.168.217.141
+The authenticity of host '192.168.217.141 (192.168.217.141)' can't be established.
+ED25519 key fingerprint is SHA256:JLFr8g4CTqLtwSQ8CuMamJcDO4zT5tuPsJdwFTgQuBY.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? y
+Please type 'yes', 'no' or the fingerprint: yes
+Warning: Permanently added '192.168.217.141' (ED25519) to the list of known hosts.
+Welcome to Ubuntu 23.10 (GNU/Linux 6.5.0-15-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+63 updates can be applied immediately.
+To see these additional updates run: apt list --upgradable
+
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+***************
+HELLO WORLD
+***************
 ```
 
 9. (**) Вывести список файловых систем, которые поддерживаются ядром
