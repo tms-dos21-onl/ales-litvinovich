@@ -28,8 +28,9 @@ sudo timedatectl set-timezone Europe/Moscow
 Настраиваем приветствие при входе
 ```
 ales@ales-None:~$ sudo nano /etc/motd
-![image](https://github.com/tms-dos21-onl/ales-litvinovich/assets/87812043/8baf6b19-1c49-42ac-8ef0-86451f66374e)
 ```
+![Результат](https://github.com/tms-dos21-onl/ales-litvinovich/assets/87812043/e4f22fc4-a1b9-4ee1-94c2-29e301329779)
+
 
 2. Определить точную версию ядра.
    
