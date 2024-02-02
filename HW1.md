@@ -4,8 +4,8 @@
 
 Затем:
 1. Произвести минимальную настройку (время, локаль, custom motd)
-Проверяем системное время и активирован ли NTP демон
-
+   
+   Проверяем системное время и активирован ли NTP демон
 ```
 ales@ales-None:~$ timedatectl
                Local time: Fri 2024-02-02 09:59:15 +03
@@ -17,16 +17,16 @@ System clock synchronized: yes
           RTC in local TZ: no
 
 ```
-В случае необходимости меняем в ручную
+   В случае необходимости меняем в ручную
 
 ```
 ales@ales-None:~$ sudo timedatectl set-time "2025-01-01 00:00:00"
 ```
-И часовой пояс
+   И часовой пояс
 ```
 ales@ales-None:~$ sudo timedatectl set-timezone Europe/Minsk
 ```
-Настраиваем приветствие при входе
+   Настраиваем приветствие при входе
 ```
 ales@ales-None:~$ sudo nano /etc/motd
 ```
@@ -52,8 +52,8 @@ LOGO=ubuntu-logo
 ```
 
 3. Вывести список модулей ядра и записать в файл
-Создаем файл в который сразу же записывается результат команды
-
+   
+   Создаем файл в который сразу же записывается результат команды
 ```
 ales@ales-1-2:~$ lsmod > moduls.txt
 ales@ales-1-2:~$ cat moduls.txt
@@ -120,7 +120,7 @@ wmi                    40960  1 video
 
 4. Просмотреть информацию о процессоре и модулях оперативной памяти
 
-Процессор
+   Процессор
 ```
 ales@ales-None:~$ sudo lshw -class processor -class memory
   *-firmware                
@@ -145,7 +145,7 @@ ales@ales-None:~$ sudo lshw -class processor -class memory
        capabilities: lm fpu fpu_exception wp vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx rdtscp x86-64 constant_tsc arch_perfmon nopl xtopology tsc_reliable nonstop_tsc cpuid tsc_known_freq pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cpuid_fault pti ssbd ibrs ibpb stibp fsgsbase tsc_adjust smep arat md_clear flush_l1d arch_capabilities
        configuration: cores=1 enabledcores=1 microcode=33
 ```
-И память
+   И память
 ```
 *-memory
        description: System Memory
@@ -283,11 +283,85 @@ enp0s8: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
 ```
 
 8. (**) Создать пользователя new_admin_user, Настроить ssh доступ пользователю по ключу на VM, запретить ему авторизацию по паролю
+   
+   Создаем пользователя
+```
+ales@ales-None:~$ sudo adduser new_admin_user
+info: Adding user `new_admin_user' ...
+info: Selecting UID/GID from range 1000 to 59999 ...
+info: Adding new group `new_admin_user' (1001) ...
+info: Adding new user `new_admin_user' (1001) with group `new_admin_user (1001)' ...
+info: Creating home directory `/home/new_admin_user' ...
+info: Copying files from `/etc/skel' ...
+New password: 
+BAD PASSWORD: The password is shorter than 8 characters
+Retype new password: 
+Sorry, passwords do not match.
+New password: 
+BAD PASSWORD: The password is shorter than 8 characters
+Retype new password: 
+passwd: password updated successfully
+Changing the user information for new_admin_user
+Enter the new value, or press ENTER for the default
+	Full Name []: new_admin_user
+	Room Number []: 1
+	Work Phone []: 1
+	Home Phone []: 1
+	Other []: 
+Is the information correct? [Y/n] y
+info: Adding new user `new_admin_user' to supplemental / extra groups `users' ...
+info: Adding user `new_admin_user' to group `users' ...
 
 ```
+   Даем ему права админа
+```
+ales@ales-None:~$ sudo usermod -aG sudo new_admin_user
+```
+   Переключаемся на новосозданного пользователя
+```
+ales@ales-None:~$ su - new_admin_user
+```
+   Создаем для него SSH-ключ
+```
+new_admin_user@ales-None:~$ ssh-keygen -t rsa -b 2048
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/new_admin_user/.ssh/id_rsa): 
+Created directory '/home/new_admin_user/.ssh'.
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /home/new_admin_user/.ssh/id_rsa
+Your public key has been saved in /home/new_admin_user/.ssh/id_rsa.pub
+The key fingerprint is:
+SHA256:I7zwHtPPSzaiiFUw3zYbkyiOjOJxkTPCtF7wTpaA6Do new_admin_user@ales-None
+The key's randomart image is:
++---[RSA 2048]----+
+|                 |
+|o                |
+|o+  o            |
+|+ = o= o .       |
+| = @o * S        |
+|oo*o+= = *       |
+|Eoooo = + +      |
+|o.oo o + * .     |
+| .. . o   +.     |
++----[SHA256]-----+
 
 ```
-    
+   Копируем ключ в файл
+```
+new_admin_user@ales-None:~$ cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+```
+   Через nano редактируем конфигурацию SSH запретив взод по паролю и разрешив по ключу
+   PasswordAuthentication no
+   PubkeyAuthentication yes
+```
+new_admin_user@ales-None:~$ sudo nano /etc/ssh/sshd_config
+```
+   Перезапускаем демона SSH для применения новой конфигурации
+```
+new_admin_user@ales-None:~$ sudo systemctl restart ssh
+```
+
 9. (**) Вывести список файловых систем, которые поддерживаются ядром
 
 ```
