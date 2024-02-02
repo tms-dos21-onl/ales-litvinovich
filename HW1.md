@@ -5,6 +5,7 @@
 Затем:
 1. Произвести минимальную настройку (время, локаль, custom motd)
 Проверяем системное время и активирован ли NTP демон
+
 ```
 ales@ales-None:~$ timedatectl
                Local time: Fri 2024-02-02 09:59:15 +03
@@ -23,14 +24,13 @@ ales@ales-None:~$ sudo timedatectl set-time "2025-01-01 00:00:00"
 ```
 И часовой пояс
 ```
-sudo timedatectl set-timezone Europe/Moscow
+ales@ales-None:~$ sudo timedatectl set-timezone Europe/Minsk
 ```
 Настраиваем приветствие при входе
 ```
 ales@ales-None:~$ sudo nano /etc/motd
 ```
 ![Результат](https://github.com/tms-dos21-onl/ales-litvinovich/assets/87812043/e4f22fc4-a1b9-4ee1-94c2-29e301329779)
-
 
 2. Определить точную версию ядра.
    
@@ -49,9 +49,11 @@ BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
 PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
 UBUNTU_CODENAME=mantic
 LOGO=ubuntu-logo
-```   
+```
+
 3. Вывести список модулей ядра и записать в файл
 Создаем файл в который сразу же записывается результат команды
+
 ```
 ales@ales-1-2:~$ lsmod > moduls.txt
 ales@ales-1-2:~$ cat moduls.txt
@@ -114,9 +116,50 @@ e1000                 180224  0
 ahci                   49152  1
 libahci                57344  1 ahci
 wmi                    40960  1 video
-```     
+```
+
 4. Просмотреть информацию о процессоре и модулях оперативной памяти
-   
+
+Процессор
+```
+ales@ales-None:~$ sudo lshw -class processor -class memory
+  *-firmware                
+       description: BIOS
+       vendor: Phoenix Technologies LTD
+       physical id: 0
+       version: 6.00
+       date: 07/22/2020
+       size: 86KiB
+       capabilities: isa pci pcmcia pnp apm upgrade shadowing escd cdboot bootselect edd int5printscreen int9keyboard int14serial int17printer int10video acpi smartbattery biosbootspecification netboot
+  *-cpu:0
+       description: CPU
+       product: Intel(R) Xeon(R) CPU E3-1225 V2 @ 3.20GHz
+       vendor: Intel Corp.
+       physical id: 1
+       bus info: cpu@0
+       version: 6.58.9
+       slot: CPU #000
+       size: 3200MHz
+       capacity: 4230MHz
+       width: 64 bits
+       capabilities: lm fpu fpu_exception wp vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx rdtscp x86-64 constant_tsc arch_perfmon nopl xtopology tsc_reliable nonstop_tsc cpuid tsc_known_freq pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cpuid_fault pti ssbd ibrs ibpb stibp fsgsbase tsc_adjust smep arat md_clear flush_l1d arch_capabilities
+       configuration: cores=1 enabledcores=1 microcode=33
+```
+И память
+```
+*-memory
+       description: System Memory
+       physical id: 1a2
+       slot: System board or motherboard
+       size: 4GiB
+     *-bank:0
+          description: DIMM DRAM EDO
+          physical id: 0
+          slot: RAM slot #0
+          size: 4GiB
+          width: 32 bits
+```
+
 5. Получить информацию о жестком диске
 
 ```
@@ -206,7 +249,8 @@ Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
 
 ```
-7. Добавить в виртуальную машину второй сетевой интерфейс (вывести информацию о нем в виртуалках)
+
+6. Добавить в виртуальную машину второй сетевой интерфейс (вывести информацию о нем в виртуалках)
 
 ```
    ales@ales-1-2:~$ ifconfig
@@ -228,7 +272,8 @@ enp0s8: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
         TX packets 167  bytes 16577 (16.5 KB)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 ```
-8. (**) Узнать полную информацию об использованной и неиспользованной оперативной памяти
+
+7. (**) Узнать полную информацию об использованной и неиспользованной оперативной памяти
 
 ```
    ales@ales-1-2:~$ free -h
@@ -236,7 +281,12 @@ enp0s8: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
 Память:        3,8Gi       1,1Gi       2,2Gi        40Mi       850Mi       2,7Gi
 Подкачка:      3,8Gi          0B       3,8Gi
 ```
+
 8. (**) Создать пользователя new_admin_user, Настроить ssh доступ пользователю по ключу на VM, запретить ему авторизацию по паролю
+
+```
+
+```
     
 9. (**) Вывести список файловых систем, которые поддерживаются ядром
 
