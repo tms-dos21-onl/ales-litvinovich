@@ -148,15 +148,51 @@ ales@ales-None:~$ sudo groupadd birds
 ales@ales-None:~$ sudo usermod -g birds penguin1
 ```
 5. Cоздать директорию /var/wintering и выдать права на нее только группе birds.
-   
+
+Создаем директорию:
+```
+ales@ales-None:~$ sudo mkdir /var/wintering
+```
+Назначаем группу директории:
+```
+ales@ales-None:~$ sudo chown :birds /var/wintering
+```
+Даем права только пользователям входящим в группу birds:
+```
+ales@ales-None:~$ sudo chmod 070 /var/wintering
+```
    
 6. Установить ntpd (или chrony) и разрешить пользователю penguin выполнять команду systemctl restart chronyd (нужны права sudo). Больше узнать о том, что такое NTP и почему он важен можно из следующей статьи.
 
-   
+Устанавливаем chrony:
+```
+ales@ales-None:~$ sudo apt install chrony
+```
+Даем права sudo пользователю penguin1:
+```
+ales@ales-None:~$ sudo usermod -aG sudo penguin1
+```
+Переключаемся на нужного пользователя и перезапускаем chrony:
+```
+ales@ales-None:~$ su - penguin1
+penguin1@ales-None:~$ sudo systemctl restart chronyd
+```
+
 7. (**) Вывод команды iostat -x в последней колонке показывает загрузку дисков в процентах. Откуда утилита это понимает?  
 Достаточно ли вывода команды iostat -x для того, чтобы оценить реальную нагрузку на диски, или нужны дополнительные условия или ключи?
 
 
-8. (***) Подумать, что сделает команда chmod -x $(which chmod). Выполнить её на виртуальной машине и вернуть всё как было не прибегая к скачиванию\копированию chmod с другого хоста.
 
-    
+8. (***) Подумать, что сделает команда chmod -x $(which chmod). Выполнить её на виртуальной машине и вернуть всё как было не прибегая к скачиванию\копированию chmod с другого хоста.
+   
+В части $(which chmod) выполняется подстановка пути к файлу chmod, затем, результат выполнения передается к обработке командой chmod -x, которая делает файл chmod неисполняемым путем удаления прав.
+Для начала применяем команду на виртулке и проверяем ее работоспособность:
+```
+penguin1@ales-None:~$ sudo chmod -x $(which chmod)
+penguin1@ales-None:~$ sudo chmod -x $(which chmod)
+sudo: chmod: command not found
+```
+Возвращаем права исполнения используя утилиту busybox:
+```
+penguin1@ales-None:~$ sudo busybox chmod +x /bin/chmod
+```
