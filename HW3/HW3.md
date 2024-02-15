@@ -7,7 +7,7 @@
 ```console
 ales@ales-None:~$ sudo apt install powershell
 Reading package lists... Done
-..
+...
 Unpacking powershell (7.4.1-1.deb) ...
 Setting up powershell (7.4.1-1.deb) ...
 
@@ -51,19 +51,19 @@ drwxr-xr-x       ales ales        1/26/2024 12:21         4096 Videos
 #Инициализация Bash
 #!/bin/bash
 
-#Сбор информации о памяти
-mem_info=$(free -m | grep Mem)                         #Через команду free и grep получаем инфу о памяти
-total_mem=$(echo "$mem_info" | awk '{print $2}')       #Из полученной выше строчки достаем 2 слово используя команду awk
-free_mem=$(echo "$mem_info" | awk '{print $4}')        #Из полученной в начале строчки достаем 4 слово используя команду awk
-echo "Память: $free_mem Мб свободно из $total_mem Мб"  #Выводим значения свободной памяти и общей
+# Сбор информации о памяти
+mem_info=$(free -m | grep Mem)                         # Через команду free и grep получаем инфу о памяти
+total_mem=$(echo "$mem_info" | awk '{print $2}')       # Из полученной выше строчки достаем 2 слово используя команду awk
+free_mem=$(echo "$mem_info" | awk '{print $4}')        # Из полученной в начале строчки достаем 4 слово используя команду awk
+echo "Память: $free_mem Мб свободно из $total_mem Мб"  # Выводим значения свободной памяти и общей
 
 # Собираем данные о текущей загрузке процессора
-cpu_load=$(top -n1 | grep "Cpu(s)"| awk '{print $2}' ) #Получаем статическое значение Cpu и достаем из вывода команды
-echo "Процессор: $cpu_load% "                          #Вывод результата
+cpu_load=$(top -n1 | grep "Cpu(s)"| awk '{print $2}' ) # Получаем статическое значение Cpu и достаем из вывода команды
+echo "Процессор: $cpu_load% "                          # Вывод результата
 
 # Собираем данные о текущем IP-адресе(ах)
-ip_addresses=$(hostname -I)                            #Получаем чистое значение IP
-echo "IP адрес: $ip_addresses"                         #Вывод
+ip_addresses=$(hostname -I)                            # Получаем чистое значение IP
+echo "IP адрес: $ip_addresses"                         # Вывод
 ```
 - Результат:
 ```console
@@ -75,7 +75,24 @@ IP адрес: 192.168.217.141
 
 4. (**) Cоздать файл immortalfile, запретить его удаление даже пользователем root и попытаться его удалить из под root, результатом должно быть “Operation not permitted”. Подсказка: CHATTR(1).
 
-   
-5. (***) Выполнить команду и разобраться, что она делает и что сохраняется в file.log 
-env -i bash -x -l -c 'echo hello_there!' > file.log 2>&1
+```console
+PS /home/ales> touch immortalfile                           # Создаем файл
+PS /home/ales> sudo chattr +i immortalfile                  # Задаем параметр Только чтение                                          
+PS /home/ales> sudo rm immortalfile                         # Пытаемся удалить
+rm: cannot remove 'immortalfile': Operation not permitted   # Получаем ошибку
+```   
+
+5. (***) Выполнить команду и разобраться, что она делает и что сохраняется в 
+file.log env -i bash -x -l -c 'echo hello_there!' > file.log 2>&1
+
+file.log - создаст файл 
+env -i bash - запустит оболочку без переменных окружения
+x - включает режим отладки
+l - говорит bash, что это интерактивная сессия, которая читает файлы конфигурации
+```'echo hello_there!'``` - это команда, которая будет выполнена внутри оболочки bash и выводится в файл
+>file.log - весь вывод, который появляется в терминале, будет записан в указанный файл
+2>&1 - записывает все ошибки в файл file.log
+ 
+В результате выполнения в файле была создана запись: ```sudo: file.log: command not found```
+ 
 
