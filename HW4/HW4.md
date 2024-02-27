@@ -162,14 +162,39 @@ ales@ales-None:~$ cat sh2.log
 ## 9. (***) Сделать п. 5 для Prometheus Node Exporter
 
 - Установка
-```
-
-```
-- Проверяю статус
-```
-
+```console
+ales@ales-None:~$ wget https://github.com/prometheus/node_exporter/releases/tag/v1.7.0/node_exporter-1.7.0.darwin-amd64.tar.gz                                                                   # Скачивание архива    
+ales@ales-None:~$ tar -xvf node_exporter-1.7.0.linux-amd64.tar.gz                     # Распаковка
+ales@ales-None:~$ sudo cp node_exporter /usr/local/bin/                               # Копирую сервис в bin
 ```
 - Добавляю сервис в атозагрузки
 ```
+[Unit]
+Description=Prometheus Node Exporter
+After=network.target
 
+[Service]
+User=ales
+Group=node_exporter
+Type=simple
+ExecStart=/usr/local/bin/node_exporter
+
+[Install]
+WantedBy=default.target
+```
+- Проверяю статус после перезагрузки и вебдоступ
+```console
+ales@ales-None:~$ sudo systemctl status node_exporter
+[sudo] password for ales: 
+● node_exporter.service - Prometheus Node Exporter
+     Loaded: loaded (/etc/systemd/system/node_exporter.service; enabled; preset: enabled)
+     Active: active (running) since Tue 2024-02-27 08:51:01 +03; 2min 18s ago
+   Main PID: 1390 (node_exporter)
+      Tasks: 5 (limit: 4570)
+     Memory: 14.5M
+        CPU: 48ms
+     CGroup: /system.slice/node_exporter.service
+             └─1390 /usr/local/bin/node_exporter
+
+             image.png
 ```
