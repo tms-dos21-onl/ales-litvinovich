@@ -195,6 +195,5 @@ ales@ales-None:~$ sudo systemctl status node_exporter
         CPU: 48ms
      CGroup: /system.slice/node_exporter.service
              └─1390 /usr/local/bin/node_exporter
-
-             image.png
-```
+  ```
+   ![Вебдоступ](https://github.com/tms-dos21-onl/ales-litvinovich/assets/87812043/db769a93-10bc-43f5-a21c-08e1e053aff5)
