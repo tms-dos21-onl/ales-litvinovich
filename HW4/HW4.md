@@ -117,7 +117,7 @@ Feb 26 08:45:47 ales-None proc1[1012]: Бесконечный процесс в�
 ```bash
 #!/bin/bash
 # Количество процессов текущего пользователя
-process_count=$(ps -u $ales | wc -l)
+process_count=$(ps -u $ales | wc -l)                                
 echo "Количество процессов текущего пользователя: $process_count"
 # Load average за 15 минут
 load_average=$(uptime | awk -F'e:' '{ print $2 }')
@@ -163,12 +163,12 @@ ales@ales-None:~$ cat sh2.log
 
 - Установка
 ```console
-ales@ales-None:~$ wget https://github.com/prometheus/node_exporter/releases/tag/v1.7.0/node_exporter-1.7.0.darwin-amd64.tar.gz                                                                   # Скачивание архива    
-ales@ales-None:~$ tar -xvf node_exporter-1.7.0.linux-amd64.tar.gz                     # Распаковка
-ales@ales-None:~$ sudo cp node_exporter /usr/local/bin/                               # Копирую сервис в bin
+ales@ales-None:~$ wget https://github.com/prometheus/node_exporter/releases/tag/v1.7.0/node_exporter-1.7.0.darwin-amd64.tar.gz       # Скачивание архива    
+ales@ales-None:~$ tar -xvf node_exporter-1.7.0.linux-amd64.tar.gz                                                                    # Распаковка
+ales@ales-None:~$ sudo cp node_exporter /usr/local/bin/                                                                              # Копирую сервис в bin
 ```
 - Добавляю сервис в атозагрузки
-```
+```console
 [Unit]
 Description=Prometheus Node Exporter
 After=network.target
