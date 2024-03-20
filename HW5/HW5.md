@@ -34,18 +34,18 @@ ESTAB      0           0                172.31.107.222:22               172.31.9
 ```
 
 3. Закрыть все порты для входящих подключений, кроме ssh
-```
+```console
 ales@KOMPUTER:~$ sudo ufw allow ssh
 Rule added
 Rule added (v6)
 ```
-```
+```console
 ales@KOMPUTER:~$ sudo ufw default deny incoming
 Default incoming policy changed to 'deny'
 (be sure to update your rules accordingly)
 ```
 
-```
+```console
 ales@KOMPUTER:~$ sudo ufw enable
 Firewall is active and enabled on system startup
 ales@KOMPUTER:~$ sudo ufw status
