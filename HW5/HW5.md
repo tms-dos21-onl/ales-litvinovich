@@ -1,6 +1,6 @@
 1. Распределить основные сетевые протоколы (перечислены ниже) по уровням модели TCP/IP:
 
-```
+```console
 - UDP
 - TCP
 - FTP
@@ -56,7 +56,8 @@ To                         Action      From
 22/tcp                     ALLOW       Anywhere
 22/tcp (v6)                ALLOW       Anywhere (v6)
 ```
-```
+
+
 4. Установить telnetd на VM, зайти на нее с другой VM с помощью telnet и отловить вводимый пароль и вводимые команды при входе c помощью tcpdump
 
 - Устанавливаю telnet и открываю 23 порт
@@ -83,7 +84,7 @@ Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.146.1-microsoft-standard-WSL2 x86_
  * Support:        https://ubuntu.com/advantage
 ```
 - Получаю результат. Пароль передается в последней строке seq 34:149
-```
+```console
 ales2@KOMPUTER:~$ sudo tcpdump -i eth0  port 23
 tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
 listening on eth0, link-type EN10MB (Ethernet), snapshot length 262144 bytes
