@@ -79,9 +79,21 @@ Address                  HWtype  HWaddress           Flags Mask            Iface
 ```
 5. Найти IP адрес соответствующий доменному имени ya.ru. Выполнить HTTP запрос на указанный IP адрес, чтобы скачать страницу с помощью утилиты curl. В результате должна вывестись HTML страничка в консоль.
 ```
+ales@ales:~$ nslookup ya.ru
+Server:		127.0.0.53
+Address:	127.0.0.53#53
 
+Non-authoritative answer:
+Name:	ya.ru
+Address: 77.88.55.242
+Name:	ya.ru
+Address: 5.255.255.242
+Name:	ya.ru
+Address: 2a02:6b8::2:242
+```
 
-
-
+```
+ales@ales:~$ curl -L http://77.88.55.242 -H "Host: ya.ru"
+<!doctype html><html prefix="og: http://ogp.me/ns#"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 
 ```
