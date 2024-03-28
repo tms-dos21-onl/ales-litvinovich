@@ -34,17 +34,20 @@ ESTAB      0           0                172.31.107.222:22               172.31.9
 ```
 
 3. Закрыть все порты для входящих подключений, кроме ssh
+
+- Разрешаю ssh 
 ```console
 ales@KOMPUTER:~$ sudo ufw allow ssh
 Rule added
 Rule added (v6)
 ```
+- Запрещаю все входящие подключния
 ```console
 ales@KOMPUTER:~$ sudo ufw default deny incoming
 Default incoming policy changed to 'deny'
 (be sure to update your rules accordingly)
 ```
-
+- Включаю фаервол
 ```console
 ales@KOMPUTER:~$ sudo ufw enable
 Firewall is active and enabled on system startup
@@ -57,13 +60,11 @@ To                         Action      From
 22/tcp (v6)                ALLOW       Anywhere (v6)
 ```
 
-
 4. Установить telnetd на VM, зайти на нее с другой VM с помощью telnet и отловить вводимый пароль и вводимые команды при входе c помощью tcpdump
 
 - Устанавливаю telnet и открываю 23 порт
 
 - Перехватываю трафик 
-
 ```console
 ales2@KOMPUTER:~$ sudo tcpdump -i eth0  port 23
 ```
@@ -85,7 +86,7 @@ Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.146.1-microsoft-standard-WSL2 x86_
 ```
 - Получаю результат. Пароль 1111
 ```console
-ales@KOMPUTER:~$ sudo tcpdump -A port 23
+ales2@KOMPUTER:~$ sudo tcpdump -i eth0  port 23
 E..24.@.@.....k...`.........fn..P...$C..Password:
 20:25:21.462573 IP KOMPUTER.mshome.net.54526 > 172.31.107.222.telnet: Flags [.], ack 116, win 1026, length 0
 E..(".@.......`...k.....fn......P...{...
@@ -107,5 +108,55 @@ E..)".@.......`...k.....fn......P. .....1
 
 5. (***) Открыть порт 222/tcp и обеспечить прослушивание порта с помощью netcat, проверить доступность порта 222 с помощью telnet и nmap.
 
+- Открываю порт 222
+```console
+ales@KOMPUTER:~$ sudo ufw allow 222/tcp
+Skipping adding existing rule
+Skipping adding existing rule (v6)
 ```
+- Проверяю
+```console
+ales@KOMPUTER:~$ sudo ufw status verbose
+Status: active
+Logging: on (low)
+Default: deny (incoming), allow (outgoing), disabled (routed)
+New profiles: skip
+
+To                         Action      From
+--                         ------      ----
+22/tcp                     ALLOW IN    Anywhere
+23                         ALLOW IN    Anywhere
+23/tcp                     ALLOW IN    Anywhere
+222/tcp                    ALLOW IN    Anywhere
+22/tcp (v6)                ALLOW IN    Anywhere (v6)
+23 (v6)                    ALLOW IN    Anywhere (v6)
+23/tcp (v6)                ALLOW IN    Anywhere (v6)
+222/tcp (v6)               ALLOW IN    Anywhere (v6)
+```
+- Прослушиваю порт
+```console
+ales@KOMPUTER:~$ sudo netcat -l 222
+```
+- Подключаюсь с виртуальной машины на WSL
+```console
+telnet 172.31.107.222 222
+```
+- Результат:
+  ![Результат](https://github.com/tms-dos21-onl/ales-litvinovich/assets/87812043/38317fe0-9974-4942-8356-0823bad9face)
+
+- Устанавливаем nmap
+```console
+ales@ales:~$ nmap -v 172.31.107.222 -p 222
+```
+- Сканируем nmap
+```console
+ales@ales:~$ nmap 172.31.107.222 -p 222 -Pn
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-03-28 21:01 +03
+Nmap scan report for 172.31.107.222 (172.31.107.222)
+Host is up (0.0011s latency).
+
+PORT    STATE SERVICE
+222/tcp open  rsh-spx
+
+Nmap done: 1 IP address (1 host up) scanned in 1.03 seconds
 ```
