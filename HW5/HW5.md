@@ -83,18 +83,26 @@ Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.146.1-microsoft-standard-WSL2 x86_
  * Management:     https://landscape.canonical.com
  * Support:        https://ubuntu.com/advantage
 ```
-- Получаю результат. Пароль передается в последней строке seq 34:149
+- Получаю результат. Пароль 1111
 ```console
-ales2@KOMPUTER:~$ sudo tcpdump -i eth0  port 23
-tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
-listening on eth0, link-type EN10MB (Ethernet), snapshot length 262144 bytes
-18:25:39.206458 IP KOMPUTER.mshome.net.51210 > 172.31.107.222.telnet: Flags [P.], seq 1433627569:1433627572, ack 3712214675, win 8195, length 3
-18:25:39.206741 IP 172.31.107.222.telnet > KOMPUTER.mshome.net.51210: Flags [P.], seq 1:22, ack 3, win 502, length 21
-18:25:39.247082 IP KOMPUTER.mshome.net.51210 > 172.31.107.222.telnet: Flags [.], ack 22, win 8195, length 0
-18:25:40.626996 IP KOMPUTER.mshome.net.51210 > 172.31.107.222.telnet: Flags [P.], seq 3:5, ack 22, win 8195, length 2
-18:25:40.627257 IP 172.31.107.222.telnet > KOMPUTER.mshome.net.51210: Flags [P.], seq 22:34, ack 5, win 502, length 12
-18:25:40.668545 IP KOMPUTER.mshome.net.51210 > 172.31.107.222.telnet: Flags [.], ack 34, win 8195, length 0
-18:25:40.668565 IP 172.31.107.222.telnet > KOMPUTER.mshome.net.51210: Flags [P.], seq 34:149, ack 5, win 502, length 115
+ales@KOMPUTER:~$ sudo tcpdump -A port 23
+E..24.@.@.....k...`.........fn..P...$C..Password:
+20:25:21.462573 IP KOMPUTER.mshome.net.54526 > 172.31.107.222.telnet: Flags [.], ack 116, win 1026, length 0
+E..(".@.......`...k.....fn......P...{...
+20:25:22.518487 IP KOMPUTER.mshome.net.54526 > 172.31.107.222.telnet: Flags [P.], seq 135:136, ack 116, win 1026, length 1
+E..)".@.......`...k.....fn......P...J...1
+20:25:22.564807 IP 172.31.107.222.telnet > KOMPUTER.mshome.net.54526: Flags [.], ack 136, win 502, length 0
+E..(4.@.@.....k...`.........fn..P...$9..
+20:25:22.733382 IP KOMPUTER.mshome.net.54526 > 172.31.107.222.telnet: Flags [P.], seq 136:137, ack 116, win 1026, length 1
+E..)".@.......`...k.....fn......P...J...1
+20:25:22.733410 IP 172.31.107.222.telnet > KOMPUTER.mshome.net.54526: Flags [.], ack 137, win 502, length 0
+E..(4.@.@.....k...`.........fn..P...$9..
+20:25:22.941936 IP KOMPUTER.mshome.net.54526 > 172.31.107.222.telnet: Flags [P.], seq 137:138, ack 116, win 8195, length 1
+E..)".@.......`...k.....fn......P. .....1
+20:25:22.941995 IP 172.31.107.222.telnet > KOMPUTER.mshome.net.54526: Flags [.], ack 138, win 502, length 0
+E..(4.@.@.....k...`.........fn..P...$9..
+20:25:23.174235 IP KOMPUTER.mshome.net.54526 > 172.31.107.222.telnet: Flags [P.], seq 138:139, ack 116, win 8195, length 1
+E..)".@.......`...k.....fn......P. .....1
 ```
 
 5. (***) Открыть порт 222/tcp и обеспечить прослушивание порта с помощью netcat, проверить доступность порта 222 с помощью telnet и nmap.
