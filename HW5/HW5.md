@@ -141,14 +141,14 @@ ales@KOMPUTER:~$ sudo netcat -l 222
 ```console
 telnet 172.31.107.222 222
 ```
-- Результат:
+ Результат:
   ![Результат](https://github.com/tms-dos21-onl/ales-litvinovich/assets/87812043/38317fe0-9974-4942-8356-0823bad9face)
 
-- Устанавливаем nmap
+- Устанавливаю nmap
 ```console
 ales@ales:~$ nmap -v 172.31.107.222 -p 222
 ```
-- Сканируем nmap
+- Сканирую nmap
 ```console
 ales@ales:~$ nmap 172.31.107.222 -p 222 -Pn
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-03-28 21:01 +03
