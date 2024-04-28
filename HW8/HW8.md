@@ -402,4 +402,4 @@ To https://github.com/tms-dos21-onl/ales-litvinovich.git
    97b0e5e..3c494a3  develop -> develop
 ```
 ## 20. Зайти в свой репозиторий на GitHub и создать Pull Request из ветки develop в ветку main.
-+
+done
