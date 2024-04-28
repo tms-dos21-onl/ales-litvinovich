@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 Copyright (c) 2012-2024 Scott Chacon and others
 
 Permission is hereby granted, free of charge, to any person obtaining
