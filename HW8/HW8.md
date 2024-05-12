@@ -15,7 +15,6 @@ Resolving deltas: 100% (94/94), done.
 ## 2. Вывести список всех удаленных репозиториев для локального.
 
 ```console
-Ales@KOMPUTER MINGW64 /h/Репозитории/ales-litvinovich (develop)
 $ git remote -v
 origin  https://github.com/tms-dos21-onl/ales-litvinovich.git (fetch)
 origin  https://github.com/tms-dos21-onl/ales-litvinovich.git (push)
