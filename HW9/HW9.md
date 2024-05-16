@@ -202,6 +202,8 @@ deluser --remove-home bob
 ## 18. Вывести логи сервиса Firewall с помощью journalctl не прибегая к фильтрации с помощью grep.
 
 ```console
-ales@ales:~$ journalctl -u firewall.service
--- No entries --
+ales@ales:~$ journalctl -u ufw
+-- Boot b523c126bc2d4e7881f19eb08d842d59 --
+May 16 12:18:32 ales systemd[1]: Starting ufw.service - Uncomplicated firewall.>
+May 16 12:18:32 ales systemd[1]: Finished ufw.service - Uncomplicated firewall.
 ```
