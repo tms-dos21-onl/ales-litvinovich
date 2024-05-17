@@ -1,21 +1,21 @@
-1. Познакомиться с веб-приложением
+## 1. Познакомиться с веб-приложением
 - backend
-+
+
 - frontend
-+
 
-2. Познакомиться с вариантами хостинга этого веб-приложения:
-App-Hosting-Options
-+
 
-3. Установить веб-приложение (backend + frontend) на Linux VM и настроить запуск через SystemD
+## 2. Познакомиться с вариантами хостинга этого веб-приложения:
 
-    1) В первую очередь скачиваем репозитории 
+
+
+## 3. Установить веб-приложение (backend + frontend) на Linux VM и настроить запуск через SystemD
+
+    - В первую очередь скачиваем репозитории 
 ```
 $ git clone https://github.com/bezkoder/django-rest-api.git
 $ git clone https://github.com/bezkoder/react-crud-web-api.git
 ```
-    2) Конфигурация frontend 
+### Конфигурация frontend 
 Для корректной работы требуется установка npm-менеджера, node.js, а также применить команду npm install в папке с проектом для установки зависимостей, которые прописаны в package.json.
 Теперь запустим сервер - npm start и получим вывод:
 ```
@@ -31,7 +31,7 @@ To create a production build, use yarn build.
 
 webpack compiled successfully
 ```
-Теперь создадим службу frontend.service:
+- Теперь создадим службу frontend.service:
 ```
 [Unit]
 Description=React-crud-web-api
@@ -44,8 +44,8 @@ Restart=always
 [Install]
 WantedBy=multi-user.target
 ```
-    3) Конфигурация backend
-Для корректной работы требуется установка python3, pip-менеджер, django, nginx.
+### Конфигурация backend
+- Для корректной работы требуется установка python3, pip-менеджер, django, nginx.
 Обновляем схему базы данных командой python manage.py migrate, а затем пробуем запустить:
 ```
 root@ales:/home/ales/django-rest-api/DjangoRestApi# python3 manage.py runserver 0.0.0.0:8080
@@ -66,7 +66,7 @@ Starting development server at http://0.0.0.0:8080/
 Quit the server with CONTROL-C.
 Error: That port is already in use.
 ```
-Создаем службу для beckend:
+- Создаем службу для beckend:
 ```
 [Unit]
 Description=DjangoRestApi
@@ -79,27 +79,115 @@ Restart=always
 [Install]
 WantedBy=multi-user.target
 ```
-    4) Запускаем службы одновременно и тестируем:
+### Запускаем службы одновременно и тестируем:
 ```
 systemctl start frontend.service backend.service
 ```
-Создаю второй сетевой адаптер у вируталки с типом "Виртуальный адаптер хоста", чтобы иметь возможность иметь доступ из вне
+- Создаю второй сетевой адаптер у вируталки с типом "Виртуальный адаптер хоста", чтобы иметь возможность иметь доступ из вне
 При запуске вебки получаю ошибку Disallowed Host
 Решение: в файле settings.py меняю конфигурацию на
 ```
 ALLOWED_HOSTS = ['*']
 ```
-Следующая ошибка ругается на CORS
+- Следующая ошибка ругается на CORS
 Решение: в файлике settings.py меняю конфигурацию на
 ```
 CORS_ORIGIN_ALLOW_ALL = True
 ```
-Следующая ошибка ругается на localhost:8080
+- Следующая ошибка ругается на localhost:8080
 Решение: http-common.js меняем localhost на актуальный айпишник и перезапускаем службы
 
-По итогу все работает!
+- По итогу все работает!
 ![Результат](image.png)
 
-4. (**) Познакомиться с инструментом для создания образов VM - Packer - на примерах создания образов для Virtualbox & Hyper-V. Попробовать написать свой шаблон для создания образа VM. 
+ ## 4. (**) Познакомиться с инструментом для создания образов VM - Packer - на примерах создания образов для Virtualbox & Hyper-V. Попробовать написать свой шаблон для создания образа VM. 
+
+- На основе конфигурации для virtualbox сделал шаблон для установки 24 версии убунту, а также изменил другие параметры автонасйтроки 
 ```
+
+variable "cpu" {
+  type    = string
+  default = "2"
+}
+
+variable "disk_size" {
+  type    = string
+  default = "25500"
+}
+
+variable "iso_checksum" {
+  type    = string
+  default = "b8f31413336b9393ad5d8ef0282717b2ab19f007df2e9ed5196c13d8f9153c8b"
+}
+
+variable "iso_checksum_type" {
+  type    = string
+  default = "sha256"
+}
+
+variable "iso_url" {
+  type    = string
+  default = "https://releases.ubuntu.com/24.04/ubuntu-24.04-desktop-amd64.iso"
+}
+
+variable "password" {
+  type    = string
+  default = "1111"
+}
+
+variable "ram_size" {
+  type    = string
+  default = "2048"
+}
+
+variable "username" {
+  type    = string
+  default = "ales"
+}
+
+variable "vm_name" {
+  type    = string
+  default = "ubuntu-24"
+}
+
+source "virtualbox-iso" "ubuntu" {
+    boot_command = [
+    "<enter><wait><enter><f6><esc><wait> ",
+    "autoinstall<wait>",
+    " ip=dhcp<wait>",
+    " cloud-config-url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/user-data<wait>",
+    " ds='nocloud-net;s=http://{{ .HTTPIP }}:{{ .HTTPPort }}/'",
+    "<wait5><enter>"
+  ]
+
+  boot_wait            = "7s"
+  communicator         = "ssh"
+  cpus                 = "${var.cpu}"
+  disk_size            = "${var.disk_size}"
+  guest_os_type        = "Ubuntu_64"
+  guest_additions_mode = "disable"
+  http_directory       = "./http/24.04/"
+  iso_checksum         = "${var.iso_checksum_type}:${var.iso_checksum}"
+  iso_url              = "${var.iso_url}"
+  memory               = "${var.ram_size}"
+  shutdown_command     = "echo '${var.password}' | sudo -S -E shutdown -P now"
+  ssh_password         = "${var.password}"
+  ssh_timeout          = "4h"
+  ssh_username         = "${var.username}"
+  vboxmanage           = [
+    ["modifyvm", "{{.Name}}", "--nat-localhostreachable1", "on"], 
+  ]
+  vm_name              = "${var.vm_name}"
+}
+
+build {
+  sources = ["source.virtualbox-iso.ubuntu"]
+
+  provisioner "shell" {
+    execute_command = "echo 'ubuntu' | sudo -S -E sh {{ .Path }}"
+    scripts         = [
+      "./scripts/cleanup.sh"
+    ]
+  }
+}
 ```
