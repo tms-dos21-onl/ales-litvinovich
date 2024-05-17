@@ -1,11 +1,12 @@
 ## 1. Познакомиться с веб-приложением
-- backend
+- backend  - &check; 
 
-- frontend
+
+- frontend - &check; 
 
 
 ## 2. Познакомиться с вариантами хостинга этого веб-приложения:
-
+- &check; 
 
 
 ## 3. Установить веб-приложение (backend + frontend) на Linux VM и настроить запуск через SystemD
@@ -16,8 +17,9 @@ $ git clone https://github.com/bezkoder/django-rest-api.git
 $ git clone https://github.com/bezkoder/react-crud-web-api.git
 ```
 ### Конфигурация frontend 
-Для корректной работы требуется установка npm-менеджера, node.js, а также применить команду npm install в папке с проектом для установки зависимостей, которые прописаны в package.json.
-Теперь запустим сервер - npm start и получим вывод:
+- Для корректной работы требуется установка npm-менеджера, node.js, а также применить команду npm install в папке с проектом для установки зависимостей, которые прописаны в package.json.
+
+- После настройки запустим сервер - npm start и получим вывод:
 ```
 Compiled successfully!
 
@@ -66,7 +68,7 @@ Starting development server at http://0.0.0.0:8080/
 Quit the server with CONTROL-C.
 Error: That port is already in use.
 ```
-- Создаем службу для beckend:
+- Создаем службу для backend:
 ```
 [Unit]
 Description=DjangoRestApi
@@ -83,7 +85,7 @@ WantedBy=multi-user.target
 ```
 systemctl start frontend.service backend.service
 ```
-- Создаю второй сетевой адаптер у вируталки с типом "Виртуальный адаптер хоста", чтобы иметь возможность иметь доступ из вне
+- Создаю второй сетевой адаптер у вируталки с типом "Виртуальный адаптер хоста", чтобы иметь доступ из вне
 При запуске вебки получаю ошибку Disallowed Host
 Решение: в файле settings.py меняю конфигурацию на
 ```
