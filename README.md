@@ -1,3 +1,3 @@
-Знаком:PowerShell, GitLab
+### Знаком: PowerShell, GitLab
 
-Хочу познакомиться:Docker, Coogle Clouds, Ansible
+### Хочу познакомиться: Docker, Coogle Clouds, Ansible
